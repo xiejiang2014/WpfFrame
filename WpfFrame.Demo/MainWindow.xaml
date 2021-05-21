@@ -1,0 +1,28 @@
+﻿<Window
+    x:Class="WpfFrame.Demo.MainWindow"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:messageBox="clr-namespace:WpfFrame.MessageBox;assembly=WpfFrame"
+    x:Name="ThisWindow"
+    Title="MainWindow"
+    Width="800"
+    Height="450"
+    mc:Ignorable="d">
+    <Grid>
+        <Button
+            Width="100"
+            Height="100"
+            HorizontalAlignment="Left"
+            VerticalAlignment="Top"
+            Click="ButtonBase_OnClick">
+            sdfsdfsd
+        </Button>
+
+        <messageBox:MessageBoxManager
+            x:Name="MessageBoxManager"
+            HorizontalAlignment="Stretch"
+            VerticalAlignment="Stretch" />
+    </Grid>
+</Window>
