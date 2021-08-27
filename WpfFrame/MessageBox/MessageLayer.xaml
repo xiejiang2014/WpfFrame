@@ -44,7 +44,7 @@
         <!--  在后台被模版选择器调用  -->
         <!--  ReSharper disable once Xaml.RedundantResource  -->
         <DataTemplate x:Key="CustomizeTemplate">
-            <ContentControl Content="{Binding Path=(local:MessageBoxViewModel.CustomizeContent)}" />
+            <ContentControl x:Name="CustomizeTemplateContentControl" Content="{Binding Path=(local:MessageBoxViewModel.CustomizeContent)}" />
         </DataTemplate>
 
         <!--  在后台被模版选择器调用  -->
@@ -58,8 +58,9 @@
 
     <!--  对话框内容区, 内容为MessageBoxViewModel 显示模版由MessageContentTemplateSelector决定  -->
     <ContentControl
-        HorizontalAlignment="Center"
-        VerticalAlignment="Center"
+        x:Name="MessageLayerRootContentControl"
+        HorizontalAlignment="Stretch"
+        VerticalAlignment="Stretch"
         Content="{Binding}"
         ContentTemplateSelector="{StaticResource MessageContentTemplateSelector}"
         DataContext="{Binding ElementName=ThisMessageLayer, Path=MessageBoxViewModel}" />
