@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Input;
@@ -16,31 +16,44 @@ namespace WpfFrame.MessageBox
 
         public Visual CustomizeContent { get; set; }
 
+        public MessageBoxViewModel()
+        {
+            OkButtonContent     = OkButtonDefaultContent;
+            YesButtonContent    = YesButtonDefaultContent;
+            NoButtonContent     = NoButtonDefaultContent;
+            CancelButtonContent = CancelButtonDefaultContent;
+        }
+
         #region Ok
 
-        public object   OkButtonContent { get; set; } = "确定";
+        public static object OkButtonDefaultContent { get; set; } = "确定";
+
+        public object   OkButtonContent { get; set; }
         public ICommand OkCommand       { get; set; }
 
         #endregion
 
         #region Yes
 
-        public object   YesButtonContent { get; set; } = "是";
-        public ICommand YesCommand       { get; set; }
+        public static object   YesButtonDefaultContent { get; set; } = "是";
+        public        object   YesButtonContent        { get; set; }
+        public        ICommand YesCommand              { get; set; }
 
         #endregion
 
         #region No
 
-        public Action NoAction        { get; set; }
-        public object NoButtonContent { get; set; } = "否";
+        public static object NoButtonDefaultContent { get; set; } = "否";
+        public        Action NoAction               { get; set; }
+        public        object NoButtonContent        { get; set; }
 
         #endregion
 
         #region Cancel
 
-        public Action CancelAction        { get; set; }
-        public object CancelButtonContent { get; set; } = "取消";
+        public static object CancelButtonDefaultContent { get; set; } = "取消";
+        public        Action CancelAction               { get; set; }
+        public        object CancelButtonContent        { get; set; }
 
         #endregion
 
