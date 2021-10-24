@@ -1,13 +1,11 @@
-﻿using System.Windows.Controls;
-
-namespace WpfFrame.Demo
+﻿namespace WpfFrame.Demo
 {
     /// <summary>
     /// UserControl1.xaml 的交互逻辑
     /// </summary>
-    public partial class UserControl1 : UserControl
+    public partial class Content1
     {
-        public UserControl1()
+        public Content1()
         {
             InitializeComponent();
         }

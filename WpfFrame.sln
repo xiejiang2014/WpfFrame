@@ -9,6 +9,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WpfFrame.Demo", "WpfFrame.D
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WpfFrame.MessageBox", "WpfFrame.MessageBox\WpfFrame.MessageBox.csproj", "{EADF42A2-20AF-4F67-923B-246882190DF7}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WpfFrame.DataGrid", "WpfFrame.DataGrid\WpfFrame.DataGrid.csproj", "{337D6685-862C-45AE-8361-D48A732EA7BC}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -27,6 +29,10 @@ Global
 		{EADF42A2-20AF-4F67-923B-246882190DF7}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{EADF42A2-20AF-4F67-923B-246882190DF7}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{EADF42A2-20AF-4F67-923B-246882190DF7}.Release|Any CPU.Build.0 = Release|Any CPU
+		{337D6685-862C-45AE-8361-D48A732EA7BC}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{337D6685-862C-45AE-8361-D48A732EA7BC}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{337D6685-862C-45AE-8361-D48A732EA7BC}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{337D6685-862C-45AE-8361-D48A732EA7BC}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

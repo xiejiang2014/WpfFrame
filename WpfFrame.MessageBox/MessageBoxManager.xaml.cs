@@ -30,7 +30,7 @@ namespace WpfFrame.MessageBox
         {
             InitializeComponent();
 
-            var boolToVisibilityConverter = new BoolToVisibilityConverter() {UseHidden = true};
+            var boolToVisibilityConverter = new BoolToVisibilityConverter() { UseHidden = true };
 
             //将自身的 Visibility 绑定到自身的 IsShowingAnyMessageBox 属性上
             var binding = new Binding()
@@ -148,7 +148,8 @@ namespace WpfFrame.MessageBox
         /// <returns></returns>
         public MessageBoxViewModel ShowCustomizeWithButtonMessageBox(
             Control customizeContent,
-            string  title)
+            string  title
+        )
         {
             var messageBoxViewModel = new MessageBoxViewModel()
                                       {
@@ -186,7 +187,8 @@ namespace WpfFrame.MessageBox
         /// <param name="messageButtonType">按钮类型</param>
         /// <returns></returns>
         public Task<MessageBoxResults> ShowTextMessageBox(string             message,
-                                                          MessageButtonTypes messageButtonType)
+                                                          MessageButtonTypes messageButtonType
+        )
         {
             return ShowTextMessageBox(message, string.Empty, messageButtonType);
         }
@@ -201,7 +203,8 @@ namespace WpfFrame.MessageBox
         public Task<MessageBoxResults> ShowTextMessageBox(
             string             message,
             string             title,
-            MessageButtonTypes messageButtonType = MessageButtonTypes.OkOnly)
+            MessageButtonTypes messageButtonType = MessageButtonTypes.OkOnly
+        )
         {
             var isShowOkButton     = false;
             var isShowYesButton    = false;
@@ -264,7 +267,8 @@ namespace WpfFrame.MessageBox
             object okButtonContent     = null,
             object yesButtonContent    = null,
             object noButtonContent     = null,
-            object cancelButtonContent = null)
+            object cancelButtonContent = null
+        )
         {
             var messageBoxViewModel = new MessageBoxViewModel()
                                       {
@@ -368,7 +372,8 @@ namespace WpfFrame.MessageBox
         /// <returns></returns>
         public MessageBoxViewModel ShowWaitingMessageBox(string message,
                                                          string title              = "",
-                                                         bool   isShowCancelButton = false)
+                                                         bool   isShowCancelButton = false
+        )
         {
             var messageBoxViewModel = new MessageBoxViewModel()
                                       {
@@ -411,7 +416,7 @@ namespace WpfFrame.MessageBox
             }
 
             //为 messageBoxViewModel 创建显示层并显示
-            var newLayer = new MessageLayer {MessageBoxViewModel = messageBoxViewModel};
+            var newLayer = new MessageLayer { MessageBoxViewModel = messageBoxViewModel };
 
             newLayer.Background = messageBoxViewModel.MessageBoxType switch
                                   {
@@ -531,7 +536,9 @@ namespace WpfFrame.MessageBox
         /// </summary>
         /// <param name="control">对话框的view</param>
         /// <param name="animationCompletedAction">动画完成后的回调函数</param>
-        public void RunDefaultShownAnimation(Control control, Action animationCompletedAction = null)
+        public void RunDefaultShownAnimation(Control control,
+                                             Action  animationCompletedAction = null
+        )
         {
             RunDefaultShownAnimation(control, -1, -1, animationCompletedAction);
         }
@@ -546,7 +553,8 @@ namespace WpfFrame.MessageBox
         public void RunDefaultShownAnimation(Control control,
                                              int     startX,
                                              int     startY,
-                                             Action  animationCompletedAction = null)
+                                             Action  animationCompletedAction = null
+        )
         {
             //创建缩放变形
             var scaleTransform = new ScaleTransform(0.01, 0.01);
@@ -579,7 +587,9 @@ namespace WpfFrame.MessageBox
                 var translationStoryboard = new Storyboard();
                 timeLines.ForEach(translationStoryboard.Children.Add);
 
-                translationStoryboard.Completed += (s, e) =>
+                translationStoryboard.Completed += (s,
+                                                    e
+                                                   ) =>
                                                    {
                                                        //todo 这里应该删除动画
                                                        //control.RenderTransform = null;
@@ -605,13 +615,19 @@ namespace WpfFrame.MessageBox
             }
         }
 
-        public void RunDefaultCloseAnimation(Control control, Action animationCompletedAction = null)
+        public void RunDefaultCloseAnimation(Control control,
+                                             Action  animationCompletedAction = null
+        )
         {
             RunDefaultCloseAnimation(control, -1, -1, animationCompletedAction);
         }
 
-        public void RunDefaultCloseAnimation(Control control, int endX, int endY,
-                                             Action  animationCompletedAction = null)
+
+        public void RunDefaultCloseAnimation(Control control,
+                                             int     endX,
+                                             int     endY,
+                                             Action  animationCompletedAction = null
+        )
         {
             //创建缩放变形
             var scaleTransform = new ScaleTransform(1, 1);
@@ -638,7 +654,9 @@ namespace WpfFrame.MessageBox
                 var translationStoryboard = new Storyboard();
                 timeLines.ForEach(translationStoryboard.Children.Add);
 
-                translationStoryboard.Completed += (s, e) =>
+                translationStoryboard.Completed += (s,
+                                                    e
+                                                   ) =>
                                                    {
                                                        //todo 这里应该删除动画
                                                        translationStoryboard.Stop();
@@ -668,9 +686,11 @@ namespace WpfFrame.MessageBox
         /// <param name="targetName">目标对象</param>
         /// <param name="targetValue">目标值</param>
         /// <returns></returns>
-        private static IEnumerable<Timeline> CreateScaleTimeline(string targetName, double targetValue)
+        private static IEnumerable<Timeline> CreateScaleTimeline(string targetName,
+                                                                 double targetValue
+        )
         {
-            //X 轴平缩放画  不管初始态如何,保证在结束时调整为1,也就是不缩放
+            //X 轴平缩放画  不管初始态如何,保证在结束时调整为 targetValue
             var scaleXDoubleAnimationUsingKeyFrames = new DoubleAnimationUsingKeyFrames()
                                                       {
                                                           FillBehavior = FillBehavior.HoldEnd,
@@ -695,7 +715,7 @@ namespace WpfFrame.MessageBox
                                          new PropertyPath(ScaleTransform.ScaleXProperty));
             yield return scaleXDoubleAnimationUsingKeyFrames;
 
-            //Y 轴平缩放画  不管初始态如何,保证在结束时调整为1,也就是不缩放
+            //Y 轴平缩放画  不管初始态如何,保证在结束时调整为 targetValue
             var scaleYDoubleAnimationUsingKeyFrames = new DoubleAnimationUsingKeyFrames()
                                                       {
                                                           FillBehavior = FillBehavior.HoldEnd,
@@ -727,7 +747,9 @@ namespace WpfFrame.MessageBox
         /// <param name="targetName">目标名称</param>
         /// <param name="targetColor">目标颜色</param>
         /// <returns></returns>
-        private static IEnumerable<Timeline> CreateColorChangeTimeline(string targetName, Color targetColor)
+        private static IEnumerable<Timeline> CreateColorChangeTimeline(string targetName,
+                                                                       Color  targetColor
+        )
         {
             var colorAnimationUsingKeyFrames = new ColorAnimationUsingKeyFrames()
                                                {

@@ -14,20 +14,13 @@ using System.Windows.Shapes;
 namespace WpfFrame.Demo
 {
     /// <summary>
-    /// UserControl2.xaml 的交互逻辑
+    /// Interaction logic for MessageBoxDemo1.xaml
     /// </summary>
-    public partial class UserControl2 : UserControl
+    public partial class MessageBoxDemo1 : UserControl
     {
-        public Action CloseAction { get; set; }
-
-        public UserControl2()
+        public MessageBoxDemo1()
         {
             InitializeComponent();
-        }
-
-        private void ButtonBase_OnClick(object sender, RoutedEventArgs e)
-        {
-            CloseAction?.Invoke();
         }
     }
 }

@@ -1,18 +1,17 @@
 <ResourceDictionary
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-    xmlns:wpfFrame="clr-namespace:WpfFrame">
-
-    <ResourceDictionary.MergedDictionaries>
-        <ResourceDictionary Source="/WpfFrame;component/Styles/Controls.xaml" />
-    </ResourceDictionary.MergedDictionaries>
+    xmlns:wpfFrame = "clr-namespace:WpfFrame;assembly=WpfFrame"
+    xmlns:dataGrid = "clr-namespace:WpfFrame.DataGrid" >
 
 
     <!--  控件默认样式  -->
     <Style
         BasedOn="{StaticResource {x:Type TextBox}}"
         TargetType="wpfFrame:FilterBox" />
-
+    <Style
+        BasedOn="{StaticResource {x:Type DataGrid}}"
+        TargetType="dataGrid:DataGridEx" />
     <Style
         BasedOn="{StaticResource {x:Type ComboBox}}"
         TargetType="wpfFrame:FilterComboBox" />

@@ -1,4 +1,5 @@
-﻿using System.Windows;
+﻿using System.Threading.Tasks;
+using System.Windows;
 
 namespace WpfFrame.Demo
 {
@@ -12,11 +13,22 @@ namespace WpfFrame.Demo
             InitializeComponent();
         }
 
-        private async void ButtonBase_OnClick(object          sender,
-                                              RoutedEventArgs e
+        private async void WaitingButton_OnClick(object          sender,
+                                                 RoutedEventArgs e
         )
         {
-            var content = new UserControl2();
+            var messageBoxViewModel = MessageBoxManager.ShowWaitingMessageBox("内容", "标题");
+
+            await Task.Delay(1000);
+
+            MessageBoxManager.CloseMessageBox(messageBoxViewModel);
+        }
+
+        private async void AniButton_OnClick(object          sender,
+                                             RoutedEventArgs e
+        )
+        {
+            var content = new Content2();
 
             var messageBoxViewModel = MessageBoxManager.ShowCustomizeMessageBox(
                                                                                 content
