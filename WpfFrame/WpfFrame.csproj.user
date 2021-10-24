@@ -2,30 +2,10 @@
 <Project ToolsVersion="Current" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <PropertyGroup />
   <ItemGroup>
-    <Compile Update="MessageBox\MessageLayer.xaml.cs">
-      <SubType>Code</SubType>
-    </Compile>
-  </ItemGroup>
-  <ItemGroup>
     <Page Update="HelpMaskLayer.xaml">
       <SubType>Designer</SubType>
     </Page>
-    <Page Update="MessageBox\MessageBoxManager.xaml">
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Update="MessageBox\MessageLayer.xaml">
-      <SubType>Designer</SubType>
-    </Page>
     <Page Update="Styles\Controls.xaml">
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Update="Styles\CustomizeWithButtonMessageBoxStyles.xaml">
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Update="Styles\TextMessageBoxStyles.xaml">
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Update="Styles\WaitingBoxStyles.xaml">
       <SubType>Designer</SubType>
     </Page>
     <Page Update="Themes\Generic.xaml">

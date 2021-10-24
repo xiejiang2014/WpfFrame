@@ -11,6 +11,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\WpfFrame.MessageBox\WpfFrame.MessageBox.csproj" />
     <ProjectReference Include="..\WpfFrame\WpfFrame.csproj" />
   </ItemGroup>
 

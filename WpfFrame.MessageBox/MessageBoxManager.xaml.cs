@@ -11,7 +11,7 @@ using System.Windows.Data;
 using System.Windows.Media;
 using System.Windows.Media.Animation;
 using JetBrains.Annotations;
-using WpfFrame.Commands;
+using Prism.Commands;
 using WpfFrame.ValueConverter;
 
 namespace WpfFrame.MessageBox
@@ -21,10 +21,10 @@ namespace WpfFrame.MessageBox
     /// </summary>
     public partial class MessageBoxManager : INotifyPropertyChanged
     {
-        public static MessageBoxManager Default { get; } = new MessageBoxManager();
+        public static MessageBoxManager Default { get; } = new();
 
 
-        private static readonly SolidColorBrush DefaultBackground = new SolidColorBrush(Color.FromArgb(50, 0, 0, 0));
+        private static readonly SolidColorBrush DefaultBackground = new(Color.FromArgb(50, 0, 0, 0));
 
         public MessageBoxManager()
         {
@@ -48,7 +48,7 @@ namespace WpfFrame.MessageBox
         public bool IsShowingAnyMessageBox { get; private set; }
 
 
-        private readonly ConcurrentDictionary<MessageBoxViewModel, MessageLayer> _messageBoxViewModelAndLayerDic = new ConcurrentDictionary<MessageBoxViewModel, MessageLayer>();
+        private readonly ConcurrentDictionary<MessageBoxViewModel, MessageLayer> _messageBoxViewModelAndLayerDic = new();
 
         #region 完全自定义内容框
 
@@ -130,7 +130,11 @@ namespace WpfFrame.MessageBox
         //                                             isShowCancelButton);
         //}
 
-
+        /// <summary>
+        /// 显示自定义内容并带有按钮对话框
+        /// </summary>
+        /// <param name="customizeContent">自定义内容对象</param>
+        /// <returns></returns>
         public MessageBoxViewModel ShowCustomizeWithButtonMessageBox(Control customizeContent)
         {
             return ShowCustomizeWithButtonMessageBox(customizeContent, string.Empty);
@@ -522,6 +526,11 @@ namespace WpfFrame.MessageBox
 
         #region 动画
 
+        /// <summary>
+        /// 执行对话框的显示动画
+        /// </summary>
+        /// <param name="control">对话框的view</param>
+        /// <param name="animationCompletedAction">动画完成后的回调函数</param>
         public void RunDefaultShownAnimation(Control control, Action animationCompletedAction = null)
         {
             RunDefaultShownAnimation(control, -1, -1, animationCompletedAction);

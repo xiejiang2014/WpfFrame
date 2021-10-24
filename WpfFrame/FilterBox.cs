@@ -50,7 +50,7 @@ namespace WpfFrame
         /// <summary>
         /// 延时器
         /// </summary>
-        private readonly System.Timers.Timer _delayer = new System.Timers.Timer();
+        private readonly System.Timers.Timer _delayer = new();
 
         public FilterBox()
         {

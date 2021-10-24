@@ -7,7 +7,7 @@ namespace WpfFrame
         /// <summary>
         /// 延时器
         /// </summary>
-        private readonly Timer _delayer = new Timer();
+        private readonly Timer _delayer = new();
 
         public Delayer()
         {

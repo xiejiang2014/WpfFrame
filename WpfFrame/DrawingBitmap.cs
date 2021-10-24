@@ -12,10 +12,10 @@ namespace WpfFrame
     /// </summary>
     public class DrawingBitmap : NotificationObject, IDisposable
     {
-        public object LockObject { get; } = new object();
+        public object          LockObject      { get; } = new();
         public WriteableBitmap WriteableBitmap { get; private set; }
-        public Bitmap Bitmap { get; private set; }
-        public Graphics Graphics { get; private set; }
+        public Bitmap          Bitmap          { get; private set; }
+        public Graphics        Graphics        { get; private set; }
 
         public DrawingBitmap(string fileName) : this(new Uri(fileName, UriKind.RelativeOrAbsolute))
         {

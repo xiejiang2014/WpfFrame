@@ -8,7 +8,7 @@ namespace WpfFrame.DataGrid
 {
     public class DataGridEx : System.Windows.Controls.DataGrid
     {
-        private List<ColumnAndOrder> _columnAndOrderList = new List<ColumnAndOrder>();
+        private List<ColumnAndOrder> _columnAndOrderList = new();
 
         public DataGridEx()
         {

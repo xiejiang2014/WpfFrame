@@ -8,7 +8,7 @@ namespace WpfFrame.DataGrid
     [AttributeUsage(AttributeTargets.Property)]
     public class DataGridColumnOrderAttribute : Attribute
     {
-        public static readonly DataGridColumnOrderAttribute Default = new DataGridColumnOrderAttribute(0);
+        public static readonly DataGridColumnOrderAttribute Default = new(0);
 
         private int _order;
 

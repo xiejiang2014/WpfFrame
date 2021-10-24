@@ -9,9 +9,9 @@ namespace WpfFrame.MessageBox
     [TemplatePart(Name = "PART_ButtonCancel")]
     public class WaitingBox : Control
     {
-        private ButtonBase _buttonCancel;
-        private MessageBoxViewModel _messageBoxViewModel;
-        private readonly NullToCollapsedConverter _nullToCollapsedConverter = new NullToCollapsedConverter();
+        private          ButtonBase               _buttonCancel;
+        private          MessageBoxViewModel      _messageBoxViewModel;
+        private readonly NullToCollapsedConverter _nullToCollapsedConverter = new();
 
         static WaitingBox()
         {

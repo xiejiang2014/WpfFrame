@@ -21,7 +21,7 @@ namespace WpfFrame.MessageBox
         private ButtonBase          _buttonClose;
         private MessageBoxViewModel _messageBoxViewModel;
 
-        private readonly NullToCollapsedConverter _nullToCollapsedConverter = new NullToCollapsedConverter();
+        private readonly NullToCollapsedConverter _nullToCollapsedConverter = new();
 
         static CustomizeWithButtonMessageBox()
         {
