@@ -7,7 +7,10 @@
     </ApplicationDefinition>
   </ItemGroup>
   <ItemGroup>
-    <Compile Update="UserControl2.xaml.cs">
+    <Compile Update="Content2.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Update="MessageBoxDemo1.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
   </ItemGroup>
@@ -15,7 +18,10 @@
     <Page Update="MainWindow.xaml">
       <SubType>Designer</SubType>
     </Page>
-    <Page Update="UserControl2.xaml">
+    <Page Update="Content2.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="MessageBoxDemo1.xaml">
       <SubType>Designer</SubType>
     </Page>
   </ItemGroup>

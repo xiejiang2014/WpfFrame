@@ -1,4 +1,4 @@
-﻿using System.Threading.Tasks;
+using System.Threading.Tasks;
 using System.Windows;
 
 namespace WpfFrame.Demo
@@ -22,6 +22,13 @@ namespace WpfFrame.Demo
             await Task.Delay(1000);
 
             MessageBoxManager.CloseMessageBox(messageBoxViewModel);
+        }
+
+        private async void WaitingButton2_OnClick(object          sender,
+                                                  RoutedEventArgs e
+        )
+        {
+            var messageBoxResults = await MessageBoxManager.ShowTextMessageBox("消息内容");
         }
 
         private async void AniButton_OnClick(object          sender,
