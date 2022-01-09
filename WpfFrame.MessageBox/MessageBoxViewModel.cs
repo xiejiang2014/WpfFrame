@@ -43,21 +43,24 @@ namespace WpfFrame.MessageBox
 
         #region No
 
-        public static object NoButtonDefaultContent { get; set; } = "否";
-        public        Action NoAction               { get; set; }
-        public        object NoButtonContent        { get; set; }
+        public static object   NoButtonDefaultContent { get; set; } = "否";
+        public        object   NoButtonContent        { get; set; }
+        public        ICommand NoCommand              { get; set; }
 
         #endregion
 
         #region Cancel
 
-        public static object CancelButtonDefaultContent { get; set; } = "取消";
-        public        Action CancelAction               { get; set; }
-        public        object CancelButtonContent        { get; set; }
+        public static object   CancelButtonDefaultContent { get; set; } = "取消";
+        public        object   CancelButtonContent        { get; set; }
+        public        ICommand CancelCommand              { get; set; }
 
         #endregion
 
-        public Action CloseAction { get; set; }
+        public static object   CloseButtonDefaultContent { get; set; } = "关闭";
+        public        object   CloseButtonContent        { get; set; }
+        public        ICommand CloseCommand              { get; set; }
+
 
         /// <summary>
         /// 是否已关闭

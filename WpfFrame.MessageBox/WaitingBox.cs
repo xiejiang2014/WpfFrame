@@ -35,25 +35,39 @@ namespace WpfFrame.MessageBox
         {
             _buttonCancel = GetTemplateChild("PART_ButtonCancel") as ButtonBase;
 
-            if (_buttonCancel != null)
-            {
-                _buttonCancel.Click += _buttonCancel_Click;
-
-                var binding = new Binding()
-                {
-                    Path = new PropertyPath(nameof(MessageBoxViewModel.CancelAction)),
-                    Converter = _nullToCollapsedConverter
-                };
-
-                _buttonCancel.SetBinding(VisibilityProperty, binding);
-            }
-
+            BindCommandToButton(
+                                _buttonCancel,
+                                new PropertyPath(nameof(MessageBoxViewModel.CancelCommand))
+                               );
+            
             base.OnApplyTemplate();
         }
 
-        private void _buttonCancel_Click(object sender, RoutedEventArgs e)
+
+
+
+
+        private static void BindCommandToButton(ButtonBase   button,
+                                                PropertyPath commandPath
+        )
         {
-            _messageBoxViewModel?.CancelAction?.Invoke();
+            if (button != null)
+            {
+                var binding = new Binding()
+                              {
+                                  Path      = commandPath,
+                                  Converter = NullToCollapsedConverter.Default
+                              };
+
+                button.SetBinding(VisibilityProperty, binding);
+
+                binding = new Binding()
+                          {
+                              Path = commandPath
+                          };
+
+                button.SetBinding(ButtonBase.CommandProperty, binding);
+            }
         }
     }
 }

@@ -324,29 +324,29 @@ namespace WpfFrame.MessageBox
             //同上
             if (isShowNoButton)
             {
-                messageBoxViewModel.NoAction = () =>
-                                               {
-                                                   result = MessageBoxResults.No;
-                                                   CloseMessageBox(messageBoxViewModel);
-                                               };
+                messageBoxViewModel.NoCommand = new DelegateCommand(() =>
+                                                                    {
+                                                                        result = MessageBoxResults.No;
+                                                                        CloseMessageBox(messageBoxViewModel);
+                                                                    });
             }
 
             //同上
             if (isShowCancelButton)
             {
-                messageBoxViewModel.CancelAction = () =>
-                                                   {
-                                                       result = MessageBoxResults.Cancel;
-                                                       CloseMessageBox(messageBoxViewModel);
-                                                   };
+                messageBoxViewModel.CancelCommand = new DelegateCommand(() =>
+                                                                        {
+                                                                            result = MessageBoxResults.Cancel;
+                                                                            CloseMessageBox(messageBoxViewModel);
+                                                                        });
             }
 
             //同上
-            messageBoxViewModel.CloseAction = () =>
-                                              {
-                                                  result = MessageBoxResults.Close;
-                                                  CloseMessageBox(messageBoxViewModel);
-                                              };
+            messageBoxViewModel.CloseCommand = new DelegateCommand(() =>
+                                                                   {
+                                                                       result = MessageBoxResults.Close;
+                                                                       CloseMessageBox(messageBoxViewModel);
+                                                                   });
 
 
             //显示对话框
@@ -384,12 +384,12 @@ namespace WpfFrame.MessageBox
 
             if (isShowCancelButton)
             {
-                messageBoxViewModel.CancelAction = () =>
-                                                   {
-                                                       //当用点击了取消按钮时,将窗口的结果标记为已取消,并关闭窗口
-                                                       messageBoxViewModel.IsCanceled = true;
-                                                       CloseMessageBox(messageBoxViewModel);
-                                                   };
+                messageBoxViewModel.CancelCommand = new DelegateCommand(() =>
+                                                                        {
+                                                                            //当用点击了取消按钮时,将窗口的结果标记为已取消,并关闭窗口
+                                                                            messageBoxViewModel.IsCanceled = true;
+                                                                            CloseMessageBox(messageBoxViewModel);
+                                                                        });
             }
 
             ShowMessageBox(messageBoxViewModel);

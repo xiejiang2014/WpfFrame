@@ -44,115 +44,49 @@ namespace WpfFrame.MessageBox
         public override void OnApplyTemplate()
         {
             _buttonOk = GetTemplateChild("PART_ButtonOK") as ButtonBase;
-
-            if (_buttonOk != null)
-            {
-                var binding = new Binding()
-                              {
-                                  Path      = new PropertyPath(nameof(MessageBoxViewModel.OkCommand)),
-                                  Converter = _nullToCollapsedConverter
-                              };
-
-                _buttonOk.SetBinding(VisibilityProperty, binding);
-
-                binding = new Binding()
-                          {
-                              Path = new PropertyPath(nameof(MessageBoxViewModel.OkCommand))
-                          };
-
-                _buttonOk.SetBinding(ButtonBase.CommandProperty, binding);
-            }
+            var commandPath = new PropertyPath(nameof(MessageBoxViewModel.OkCommand));
+            BindCommandToButton(_buttonOk, commandPath);
 
             _buttonYes = GetTemplateChild("PART_ButtonYes") as ButtonBase;
+            commandPath = new PropertyPath(nameof(MessageBoxViewModel.YesCommand));
+            BindCommandToButton(_buttonYes, commandPath);
 
-            if (_buttonYes != null)
-            {
-                var binding = new Binding()
-                              {
-                                  Path      = new PropertyPath(nameof(MessageBoxViewModel.YesCommand)),
-                                  Converter = _nullToCollapsedConverter
-                              };
-                _buttonYes.SetBinding(VisibilityProperty, binding);
-
-
-                binding = new Binding()
-                          {
-                              Path = new PropertyPath(nameof(MessageBoxViewModel.YesCommand))
-                          };
-                _buttonYes.SetBinding(ButtonBase.CommandProperty, binding);
-            }
-
-            _buttonNo = GetTemplateChild("PART_ButtonNo") as ButtonBase;
-
-            if (_buttonNo != null)
-            {
-                _buttonNo.Click += _buttonNo_Click;
-
-                var binding = new Binding()
-                              {
-                                  Path      = new PropertyPath(nameof(MessageBoxViewModel.NoAction)),
-                                  Converter = _nullToCollapsedConverter
-                              };
-
-                _buttonNo.SetBinding(VisibilityProperty, binding);
-            }
+            _buttonNo   = GetTemplateChild("PART_ButtonNo") as ButtonBase;
+            commandPath = new PropertyPath(nameof(MessageBoxViewModel.NoCommand));
+            BindCommandToButton(_buttonNo, commandPath);
 
             _buttonCancel = GetTemplateChild("PART_ButtonCancel") as ButtonBase;
-
-            if (_buttonCancel != null)
-            {
-                _buttonCancel.Click += _buttonCancel_Click;
-
-                var binding = new Binding()
-                              {
-                                  Path      = new PropertyPath(nameof(MessageBoxViewModel.CancelAction)),
-                                  Converter = _nullToCollapsedConverter
-                              };
-
-                _buttonCancel.SetBinding(VisibilityProperty, binding);
-            }
-
+            commandPath   = new PropertyPath(nameof(MessageBoxViewModel.CancelCommand));
+            BindCommandToButton(_buttonCancel, commandPath);
+            
             _buttonClose = GetTemplateChild("PART_ButtonClose") as ButtonBase;
-
-            if (_buttonClose != null)
-            {
-                _buttonClose.Click += _buttonClose_Click;
-
-                var binding = new Binding()
-                              {
-                                  Path      = new PropertyPath(nameof(MessageBoxViewModel.CloseAction)),
-                                  Converter = _nullToCollapsedConverter
-                              };
-
-                _buttonClose.SetBinding(VisibilityProperty, binding);
-            }
+            commandPath  = new PropertyPath(nameof(MessageBoxViewModel.CloseCommand));
+            BindCommandToButton(_buttonClose, commandPath);
 
             base.OnApplyTemplate();
         }
 
-        //private void _buttonOk_Click(object sender, RoutedEventArgs e)
-        //{
-        //    _messageBoxViewModel?.OkAction?.Invoke();
-        //}
-
-        //private void _buttonYes_Click(object sender, RoutedEventArgs e)
-        //{
-        //    _messageBoxViewModel?.YesAction?.Invoke();
-        //}
-
-        private void _buttonNo_Click(object sender, RoutedEventArgs e)
+        private static void BindCommandToButton(ButtonBase   button,
+                                         PropertyPath commandPath
+        )
         {
-            _messageBoxViewModel?.NoAction?.Invoke();
-        }
+            if (button != null)
+            {
+                var binding = new Binding()
+                              {
+                                  Path      = commandPath,
+                                  Converter = NullToCollapsedConverter.Default
+                };
 
-        private void _buttonCancel_Click(object sender, RoutedEventArgs e)
-        {
-            _messageBoxViewModel?.CancelAction?.Invoke();
-        }
+                button.SetBinding(VisibilityProperty, binding);
 
-        private void _buttonClose_Click(object sender, RoutedEventArgs e)
-        {
-            _messageBoxViewModel?.CloseAction?.Invoke();
+                binding = new Binding()
+                          {
+                              Path = commandPath
+                          };
+
+                button.SetBinding(ButtonBase.CommandProperty, binding);
+            }
         }
     }
 }
