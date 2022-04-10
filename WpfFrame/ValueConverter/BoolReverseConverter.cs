@@ -10,6 +10,11 @@ namespace WpfFrame.ValueConverter
 {
     public class BoolReverseConverter : IValueConverter
     {
+
+        private static BoolReverseConverter _default;
+        public static  BoolReverseConverter Default => _default ??= new BoolReverseConverter();
+
+
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
         {
             if (value is bool boolValue)

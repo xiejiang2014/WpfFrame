@@ -10,13 +10,49 @@ namespace WpfFrame.ValueConverter
     /// </summary>
     public class BoolToVisibilityConverter : IValueConverter
     {
+        private static BoolToVisibilityConverter _default;
+        public static  BoolToVisibilityConverter Default => _default ??= new BoolToVisibilityConverter();
+
+        private static BoolToVisibilityConverter _defaultReversed;
+
+        public static BoolToVisibilityConverter DefaultReversed =>
+            _defaultReversed ??= new BoolToVisibilityConverter
+                (
+                 false,
+                 true
+                );
+
+
+        private static BoolToVisibilityConverter _defaultHidden;
+
+        public static BoolToVisibilityConverter DefaultHidden =>
+            _defaultHidden ??= new BoolToVisibilityConverter
+                (
+                 true,
+                 false
+                );
+
+        private static BoolToVisibilityConverter _defaultHiddenReversed;
+
+        public static BoolToVisibilityConverter DefaultHiddenReversed =>
+            _defaultHiddenReversed ??= new BoolToVisibilityConverter
+                (
+                 true,
+                 true
+                );
+
+
         public BoolToVisibilityConverter()
         {
         }
 
-        public BoolToVisibilityConverter(bool useHidden, bool isReversed)
+        public BoolToVisibilityConverter
+        (
+            bool useHidden,
+            bool isReversed
+        )
         {
-            UseHidden = useHidden;
+            UseHidden  = useHidden;
             IsReversed = isReversed;
         }
 
@@ -32,26 +68,36 @@ namespace WpfFrame.ValueConverter
         /// </summary>
         public bool IsReversed { get; set; }
 
-        public object Convert(
-            object value,
-            Type targetType,
-            object parameter,
-            CultureInfo culture)
+        public object Convert
+        (
+            object      value,
+            Type        targetType,
+            object      parameter,
+            CultureInfo culture
+        )
         {
-            var val = System.Convert.ToBoolean(value, CultureInfo.InvariantCulture);
+            var val = System.Convert.ToBoolean
+                (
+                 value,
+                 CultureInfo.InvariantCulture
+                );
 
             if (IsReversed) val = !val;
 
             if (val) return Visibility.Visible;
 
-            return UseHidden ? Visibility.Hidden : Visibility.Collapsed;
+            return UseHidden ?
+                       Visibility.Hidden :
+                       Visibility.Collapsed;
         }
 
-        public object ConvertBack(
-            object value,
-            Type targetType,
-            object parameter,
-            CultureInfo culture)
+        public object ConvertBack
+        (
+            object      value,
+            Type        targetType,
+            object      parameter,
+            CultureInfo culture
+        )
         {
             if (value is Visibility visibility)
             {
