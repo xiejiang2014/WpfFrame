@@ -2,7 +2,7 @@
 using System.Windows.Controls;
 using System.Windows.Controls.Primitives;
 
-namespace WpfFrame
+namespace Xiejiang.DataGridEx.WPF
 {
     public class FilterComboBox : ComboBox
     {

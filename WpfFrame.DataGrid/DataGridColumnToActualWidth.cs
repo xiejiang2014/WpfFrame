@@ -3,7 +3,7 @@ using System.Globalization;
 using System.Windows;
 using System.Windows.Data;
 
-namespace WpfFrame.DataGrid
+namespace Xiejiang.DataGridEx.WPF
 {
     public class DataGridColumnToActualWidth : IMultiValueConverter
     {

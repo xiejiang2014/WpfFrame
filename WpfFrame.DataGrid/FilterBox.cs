@@ -2,7 +2,7 @@
 using System.Windows;
 using System.Windows.Controls;
 
-namespace WpfFrame
+namespace Xiejiang.DataGridEx.WPF
 {
     /// <inheritdoc />
     /// <summary>

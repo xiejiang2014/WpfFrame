@@ -1,20 +1,19 @@
 <ResourceDictionary
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-    xmlns:wpfFrame = "clr-namespace:WpfFrame;assembly=WpfFrame"
-    xmlns:dataGrid = "clr-namespace:WpfFrame.DataGrid" >
+    xmlns:wpf = "clr-namespace:Xiejiang.DataGridEx.WPF" >
 
 
     <!--  控件默认样式  -->
     <Style
         BasedOn="{StaticResource {x:Type TextBox}}"
-        TargetType="wpfFrame:FilterBox" />
+        TargetType="wpf:FilterBox" />
     <Style
         BasedOn="{StaticResource {x:Type DataGrid}}"
-        TargetType="dataGrid:DataGridEx" />
+        TargetType="wpf:DataGridEx" />
     <Style
         BasedOn="{StaticResource {x:Type ComboBox}}"
-        TargetType="wpfFrame:FilterComboBox" />
+        TargetType="wpf:FilterComboBox" />
 
 
 </ResourceDictionary>

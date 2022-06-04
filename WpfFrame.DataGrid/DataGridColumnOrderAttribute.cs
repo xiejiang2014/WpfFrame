@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace WpfFrame.DataGrid
+namespace Xiejiang.DataGridEx.WPF
 {
     /// <summary>
     /// 指定属性在System.Windows.Controls.DataGrid中自动生成列时,列的顺序
