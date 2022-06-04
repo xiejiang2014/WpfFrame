@@ -1,10 +1,13 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFrameworks>net48;netcoreapp3.1;net5.0-windows</TargetFrameworks>
+    <TargetFrameworks>net48;netcoreapp3.1;net5.0-windows;net6.0-windows</TargetFrameworks>
 	  <Nullable>enable</Nullable>
 	  <UseWPF>true</UseWPF>
     <LangVersion>latest</LangVersion>
+    <Authors>XieJiang</Authors>
+    <Company>XieJiang</Company>
+    <Copyright>2022 XieJiang All Rights Reserved.</Copyright>
   </PropertyGroup>
   <ItemGroup>
     <PackageReference Include="PropertyChanged.Fody">
