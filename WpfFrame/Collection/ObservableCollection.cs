@@ -5,6 +5,7 @@ using System.Collections.Specialized;
 using System.ComponentModel;
 using System.Diagnostics;
 using System.Linq;
+using System.Reflection;
 using System.Runtime.CompilerServices;
 using System.Runtime.Serialization;
 using System.Text;
@@ -22,10 +23,13 @@ namespace WpfFrame.Collection
     [System.Runtime.CompilerServices.TypeForwardedFrom("WindowsBase, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35")]
     public class ObservableCollection<T> : Collection<T>, INotifyCollectionChanged, INotifyPropertyChanged
     {
-        private SimpleMonitor? _monitor; // Lazily allocated only when a subclass calls BlockReentrancy() or during serialization. Do not rename (binary serialization)
+        private SimpleMonitor?
+            _monitor; // Lazily allocated only when a subclass calls BlockReentrancy() or during serialization. Do not rename (binary serialization)
 
         [NonSerialized]
         private int _blockReentrancyCount;
+
+        #region 构造
 
         /// <summary>
         /// Initializes a new instance of ObservableCollection that is empty and has default initial capacity.
@@ -63,6 +67,8 @@ namespace WpfFrame.Collection
         {
         }
 
+        #endregion
+
         private static List<T> CreateCopy(IEnumerable<T> collection, string paramName)
         {
             if (collection == null)
@@ -97,6 +103,39 @@ namespace WpfFrame.Collection
         [field: NonSerialized]
         public virtual event NotifyCollectionChangedEventHandler? CollectionChanged;
 
+        #region 清空 移除 插入
+
+        public virtual void AddRange(IList<T> range)
+        {
+            if (Items.IsReadOnly)
+            {
+                throw new NotSupportedException("NotSupported_ReadOnlyCollection");
+            }
+
+            CheckReentrancy();
+
+            var startingIndex = Count;
+
+            foreach (var item in range)
+            {
+                var index = Count;
+                base.InsertItem(index, item);
+
+                OnCountPropertyChanged();
+                OnIndexerPropertyChanged();
+                var eventArgs = new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Add, item, index); //逐个通知,是为了将数据逐个喂给 WPF 框架
+                OnCollectionChanged(eventArgs);
+            }
+
+
+            //再进行一次批量通知, 这个通知是为了让子类进行批量处理
+            var eventArgs2 = new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Add,
+                                                                 range,
+                                                                 startingIndex);
+
+            OnCollectionChangedV2(eventArgs2);
+        }
+
         /// <summary>
         /// Called by base class Collection&lt;T&gt; when the list is being cleared;
         /// raises a CollectionChanged event to any listeners.
@@ -123,7 +162,9 @@ namespace WpfFrame.Collection
 
             OnCountPropertyChanged();
             OnIndexerPropertyChanged();
-            OnCollectionChanged(NotifyCollectionChangedAction.Remove, removedItem, index);
+            var eventArgs = new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Remove, removedItem, index);
+            OnCollectionChanged(eventArgs);
+            OnCollectionChangedV2(eventArgs);
         }
 
         /// <summary>
@@ -137,8 +178,12 @@ namespace WpfFrame.Collection
 
             OnCountPropertyChanged();
             OnIndexerPropertyChanged();
-            OnCollectionChanged(NotifyCollectionChangedAction.Add, item, index);
+            var eventArgs = new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Add, item, index); //逐个通知,是为了将数据逐个喂给 WPF 框架
+            OnCollectionChanged(eventArgs);
+            OnCollectionChangedV2(eventArgs);
         }
+
+        #endregion
 
         /// <summary>
         /// Called by base class Collection&lt;T&gt; when an item is set in list;
@@ -151,7 +196,9 @@ namespace WpfFrame.Collection
             base.SetItem(index, item);
 
             OnIndexerPropertyChanged();
-            OnCollectionChanged(NotifyCollectionChangedAction.Replace, originalItem, item, index);
+            var eventArgs = new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Replace, item,originalItem,  index);
+            OnCollectionChanged(eventArgs); 
+            OnCollectionChangedV2(eventArgs);
         }
 
         /// <summary>
@@ -168,7 +215,10 @@ namespace WpfFrame.Collection
             base.InsertItem(newIndex, removedItem);
 
             OnIndexerPropertyChanged();
-            OnCollectionChanged(NotifyCollectionChangedAction.Move, removedItem, newIndex, oldIndex);
+
+            var eventArgs = new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Move, removedItem, newIndex, oldIndex);
+            OnCollectionChanged(eventArgs);
+            OnCollectionChangedV2(eventArgs);
         }
 
         /// <summary>
@@ -203,6 +253,8 @@ namespace WpfFrame.Collection
                 _blockReentrancyCount++;
                 try
                 {
+                    //注意 WPF 框架绑定到此集合时不支持处理批量更改,所以此处每次只能处理一项更改
+                    //如果更改中包含多个数据, WPF 框架会抛异常.
                     handler(this, e);
                 }
                 finally
@@ -211,6 +263,11 @@ namespace WpfFrame.Collection
                 }
             }
         }
+
+        protected virtual void OnCollectionChangedV2(NotifyCollectionChangedEventArgs e)
+        {
+        }
+
 
         /// <summary>
         /// Disallow reentrant attempts to change this collection. E.g. an event handler
@@ -257,34 +314,16 @@ namespace WpfFrame.Collection
         /// </summary>
         private void OnIndexerPropertyChanged() => OnPropertyChanged(EventArgsCache.IndexerPropertyChanged);
 
-        /// <summary>
-        /// Helper to raise CollectionChanged event to any listeners
-        /// </summary>
-        private void OnCollectionChanged(NotifyCollectionChangedAction action, object? item, int index)
-        {
-            OnCollectionChanged(new NotifyCollectionChangedEventArgs(action, item, index));
-        }
 
-        /// <summary>
-        /// Helper to raise CollectionChanged event to any listeners
-        /// </summary>
-        private void OnCollectionChanged(NotifyCollectionChangedAction action, object? item, int index, int oldIndex)
-        {
-            OnCollectionChanged(new NotifyCollectionChangedEventArgs(action, item, index, oldIndex));
-        }
-
-        /// <summary>
-        /// Helper to raise CollectionChanged event to any listeners
-        /// </summary>
-        private void OnCollectionChanged(NotifyCollectionChangedAction action, object? oldItem, object? newItem, int index)
-        {
-            OnCollectionChanged(new NotifyCollectionChangedEventArgs(action, newItem, oldItem, index));
-        }
 
         /// <summary>
         /// Helper to raise CollectionChanged event with action == Reset to any listeners
         /// </summary>
-        private void OnCollectionReset() => OnCollectionChanged(EventArgsCache.ResetCollectionChanged);
+        private void OnCollectionReset()
+        {
+            OnCollectionChanged(EventArgsCache.ResetCollectionChanged);
+            OnCollectionChangedV2(EventArgsCache.ResetCollectionChanged);
+        }
 
         private SimpleMonitor EnsureMonitorInitialized() => _monitor ??= new SimpleMonitor(this);
 
@@ -301,7 +340,7 @@ namespace WpfFrame.Collection
             if (_monitor != null)
             {
                 _blockReentrancyCount = _monitor._busyCount;
-                _monitor._collection = this;
+                _monitor._collection  = this;
             }
         }
 
@@ -310,7 +349,8 @@ namespace WpfFrame.Collection
         [TypeForwardedFrom("WindowsBase, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35")]
         private sealed class SimpleMonitor : IDisposable
         {
-            internal int _busyCount; // Only used during (de)serialization to maintain compatibility with desktop. Do not rename (binary serialization)
+            internal int
+                _busyCount; // Only used during (de)serialization to maintain compatibility with desktop. Do not rename (binary serialization)
 
             [NonSerialized]
             internal ObservableCollection<T> _collection;
@@ -328,7 +368,11 @@ namespace WpfFrame.Collection
     internal static class EventArgsCache
     {
         internal static readonly PropertyChangedEventArgs CountPropertyChanged = new PropertyChangedEventArgs("Count");
-        internal static readonly PropertyChangedEventArgs IndexerPropertyChanged = new PropertyChangedEventArgs("Item[]");
-        internal static readonly NotifyCollectionChangedEventArgs ResetCollectionChanged = new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Reset);
+
+        internal static readonly PropertyChangedEventArgs IndexerPropertyChanged =
+            new PropertyChangedEventArgs("Item[]");
+
+        internal static readonly NotifyCollectionChangedEventArgs ResetCollectionChanged =
+            new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Reset);
     }
 }

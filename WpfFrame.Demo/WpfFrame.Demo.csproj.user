@@ -7,10 +7,13 @@
     </ApplicationDefinition>
   </ItemGroup>
   <ItemGroup>
-    <Compile Update="Content2.xaml.cs">
+    <Compile Update="MessageBoxMemo\Content2.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Update="MessageBoxDemo1.xaml.cs">
+    <Compile Update="CollectionDemo\ObservableCollectionDemo.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Update="MessageBoxMemo\MessageBoxMemo.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
   </ItemGroup>
@@ -18,10 +21,13 @@
     <Page Update="MainWindow.xaml">
       <SubType>Designer</SubType>
     </Page>
-    <Page Update="Content2.xaml">
+    <Page Update="MessageBoxMemo\Content2.xaml">
       <SubType>Designer</SubType>
     </Page>
-    <Page Update="MessageBoxDemo1.xaml">
+    <Page Update="CollectionDemo\ObservableCollectionDemo.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="MessageBoxMemo\MessageBoxMemo.xaml">
       <SubType>Designer</SubType>
     </Page>
   </ItemGroup>

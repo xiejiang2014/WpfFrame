@@ -67,15 +67,16 @@ public class NotificationList<T> : ObservableCollection<T> where T : class, INot
     }
 
 
-    public void AddRange(IEnumerable<T> items)
+    public override void AddRange(IList<T> items)
     {
         var anyItem = this.Any();
 
         foreach (var item in items)
         {
             item.PropertyChanged += Item_PropertyChanged;
-            base.Add(item);
         }
+
+        base.AddRange(items);
 
         if (anyItem != this.Any())
         {
@@ -135,7 +136,6 @@ public class NotificationList<T> : ObservableCollection<T> where T : class, INot
 
     public new void Clear()
     {
-
         var anyItem = this.Any();
 
         foreach (var v in this)
@@ -171,7 +171,7 @@ public class NotificationList<T> : ObservableCollection<T> where T : class, INot
     public ItemPropertyChangedNotificationTypes ItemPropertyChangedNotificationType { get; set; } = new();
 
 
-    private void Item_PropertyChanged(object? sender, PropertyChangedEventArgs e)
+    protected void Item_PropertyChanged(object? sender, PropertyChangedEventArgs e)
     {
         //将 item 的属性更改通过事件通知到外部
         if (NotifyItemPropertyChanged       &&

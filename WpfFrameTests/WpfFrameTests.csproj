@@ -19,6 +19,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\WpfFrame.Demo\WpfFrame.Demo.csproj" />
     <ProjectReference Include="..\WpfFrame\WpfFrame.csproj" />
   </ItemGroup>
 

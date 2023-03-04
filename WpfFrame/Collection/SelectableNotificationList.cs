@@ -75,21 +75,26 @@ public class SelectableNotificationList<T> : NotificationList<T>, ISelectableNot
         if (anyChanged)
         {
             OnPropertyChanged(new PropertyChangedEventArgs(nameof(IsAllSelected)));
+            Debug.Print("IsAllSelected 事件被触发 7");
             OnPropertyChanged(new PropertyChangedEventArgs(nameof(CountOfSelected)));
+            Debug.Print("CountOfSelected 事件被触发 8");
 
             if (areMultipleSelected != AreMultipleSelected)
             {
                 OnPropertyChanged(new PropertyChangedEventArgs(nameof(AreMultipleSelected)));
+                Debug.Print("AreMultipleSelected 事件被触发 9");
             }
 
             if (isAnySelected != IsAnySelected)
             {
                 OnPropertyChanged(new PropertyChangedEventArgs(nameof(IsAnySelected)));
+                Debug.Print("IsAnySelected 事件被触发 10");
             }
 
             if (!ReferenceEquals(firstSelectedItem, FirstSelectedItem))
             {
                 OnPropertyChanged(new PropertyChangedEventArgs(nameof(FirstSelectedItem)));
+                Debug.Print("FirstSelectedItem 事件被触发 11");
             }
 
 
@@ -142,20 +147,54 @@ public class SelectableNotificationList<T> : NotificationList<T>, ISelectableNot
         if (anyChanged)
         {
             OnPropertyChanged(new PropertyChangedEventArgs(nameof(IsAllSelected)));
+            Debug.Print("IsAllSelected 事件被触发 12");
             OnPropertyChanged(new PropertyChangedEventArgs(nameof(CountOfSelected)));
+            Debug.Print("CountOfSelected 事件被触发 13");
 
             if (areMultipleSelected != AreMultipleSelected)
             {
                 OnPropertyChanged(new PropertyChangedEventArgs(nameof(AreMultipleSelected)));
+                Debug.Print("AreMultipleSelected 事件被触发 14");
             }
-            
+
             OnPropertyChanged(new PropertyChangedEventArgs(nameof(IsAnySelected)));
+            Debug.Print("IsAnySelected 事件被触发 15");
             OnPropertyChanged(new PropertyChangedEventArgs(nameof(FirstSelectedItem)));
-  
+            Debug.Print("FirstSelectedItem 事件被触发 16");
+
             SelectionChanged?.Invoke(this, selectionChangedEventArgs!);
         }
     }
 
+    //private bool _isAddingRange;
+
+    //public override void AddRange(IEnumerable<T> items)
+    //{
+    //    try
+    //    {
+    //        _isAddingRange = true;
+
+    //        base.AddRange(items);
+    //    }
+    //    finally
+    //    {
+    //        _isAddingRange = false;
+    //    }
+
+    //    //var anyItem = this.Any();
+
+    //    //foreach (var item in items)
+    //    //{
+    //    //    item.PropertyChanged += Item_PropertyChanged;
+    //    //    base.Add(item);
+    //    //}
+
+    //    //if (anyItem != this.Any())
+    //    //{
+    //    //    OnPropertyChanged(new PropertyChangedEventArgs(nameof(AnyItem)));
+    //    //    Debug.Print("AnyItem 事件被触发 2");
+    //    //}
+    //}
 
     protected override void OnItemPropertyChanged(object? sender, PropertyChangedEventArgs e)
     {
@@ -174,6 +213,7 @@ public class SelectableNotificationList<T> : NotificationList<T>, ISelectableNot
                         //有任意一项未选,那么肯定不是全选了
                         _isAllSelected = false;
                         OnPropertyChanged(new PropertyChangedEventArgs(nameof(IsAllSelected)));
+                        Debug.Print("IsAllSelected 事件被触发 17");
                     }
                 }
                 else
@@ -185,6 +225,7 @@ public class SelectableNotificationList<T> : NotificationList<T>, ISelectableNot
                         {
                             _isAllSelected = true;
                             OnPropertyChanged(new PropertyChangedEventArgs(nameof(IsAllSelected)));
+                            Debug.Print("IsAllSelected 事件被触发 18");
                         }
                     }
 
@@ -206,10 +247,15 @@ public class SelectableNotificationList<T> : NotificationList<T>, ISelectableNot
                 }
 
                 OnPropertyChanged(new PropertyChangedEventArgs(nameof(CountOfSelected)));
+                Debug.Print("CountOfSelected 事件被触发 19");
                 OnPropertyChanged(new PropertyChangedEventArgs(nameof(AreMultipleSelected)));
+                Debug.Print("AreMultipleSelected 事件被触发 20");
                 OnPropertyChanged(new PropertyChangedEventArgs(nameof(IsSingleSelected)));
+                Debug.Print("IsSingleSelected 事件被触发 21");
                 OnPropertyChanged(new PropertyChangedEventArgs(nameof(IsAnySelected)));
+                Debug.Print("IsAnySelected 事件被触发 22");
                 OnPropertyChanged(new PropertyChangedEventArgs(nameof(FirstSelectedItem)));
+                Debug.Print("FirstSelectedItem 事件被触发 23");
 
                 if (SelectionChanged is not null)
                 {
@@ -231,8 +277,14 @@ public class SelectableNotificationList<T> : NotificationList<T>, ISelectableNot
     }
 
 
-    protected override void OnCollectionChanged(NotifyCollectionChangedEventArgs e)
+    protected override void OnCollectionChangedV2(NotifyCollectionChangedEventArgs e)
     {
+        //if (_isAddingRange)
+        //{
+        //    base.OnCollectionChanged(e);
+        //    return;
+        //}
+
         //在单选模式下,如果添加了新项,并且原本已存在选中项,那么新增的项不能是选中的
         if (!CanMultipleSelect     &&
             e.NewItems is not null &&
@@ -257,11 +309,17 @@ public class SelectableNotificationList<T> : NotificationList<T>, ISelectableNot
         }
 
         base.OnCollectionChanged(e);
+
         OnPropertyChanged(new PropertyChangedEventArgs(nameof(CountOfSelected)));
+        Debug.Print("CountOfSelected 事件被触发 24");
         OnPropertyChanged(new PropertyChangedEventArgs(nameof(AreMultipleSelected)));
+        Debug.Print("AreMultipleSelected 事件被触发 25");
         OnPropertyChanged(new PropertyChangedEventArgs(nameof(IsSingleSelected)));
+        Debug.Print("IsSingleSelected 事件被触发 26");
         OnPropertyChanged(new PropertyChangedEventArgs(nameof(IsAnySelected)));
+        Debug.Print("IsAnySelected 事件被触发 27");
         OnPropertyChanged(new PropertyChangedEventArgs(nameof(IsAllSelected)));
+        Debug.Print("IsAllSelected 事件被触发 28");
     }
 
     /// <summary>
