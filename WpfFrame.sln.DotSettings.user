@@ -1,4 +1,9 @@
 ﻿<wpf:ResourceDictionary xml:space="preserve" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:s="clr-namespace:System;assembly=mscorlib" xmlns:ss="urn:shemas-jetbrains-com:settings-storage-xaml" xmlns:wpf="http://schemas.microsoft.com/winfx/2006/xaml/presentation">
 	<s:String x:Key="/Default/Environment/Hierarchy/Build/SolBuilderDuo/UseMsbuildSolutionBuilder/@EntryValue">NewVersion</s:String>
+	<s:String x:Key="/Default/Environment/UnitTesting/UnitTestSessionStore/Sessions/=2a245cc8_002D5333_002D4670_002Da09b_002Db52d73169c97/@EntryIndexedValue">&lt;SessionState ContinuousTestingMode="0" IsActive="True" Name="SelectableNotificationListTest" xmlns="urn:schemas-jetbrains-com:jetbrains-ut-session"&gt;&#xD;
+  &lt;TestAncestor&gt;&#xD;
+    &lt;TestId&gt;MSTest::2EEB15AB-A1EA-408B-A0B4-13B5E79EEB28::net6.0-windows::WpfFrame.Collection.Tests.SelectableNotificationListTests.SelectableNotificationListTest&lt;/TestId&gt;&#xD;
+  &lt;/TestAncestor&gt;&#xD;
+&lt;/SessionState&gt;</s:String>
 	<s:Boolean x:Key="/Default/Housekeeping/CodeStructure/SynchronizeCaretToView/@EntryValue">True</s:Boolean>
 	<s:Boolean x:Key="/Default/Housekeeping/CodeStructure/SynchronizeViewToCaret/@EntryValue">True</s:Boolean></wpf:ResourceDictionary>
