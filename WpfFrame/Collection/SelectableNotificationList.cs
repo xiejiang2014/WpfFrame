@@ -20,27 +20,172 @@ public class SelectableNotificationList<T> : NotificationList<T>, ISelectableNot
     {
     }
 
-    protected override void OnItemPropertyChanged(object sender, PropertyChangedEventArgs e)
+    private bool _isInBatchOperation;
+
+    /// <summary>
+    /// 全选
+    /// </summary>
+    /// <exception cref="InvalidOperationException"></exception>
+    public void SelectAll()
     {
-        if (sender is ISelectableItem selectableItem)
+        if (!CanMultipleSelect)
+        {
+            throw new InvalidOperationException($"仅多选模式下才能使用 SelectAll() 方法,请设置 {nameof(CanMultipleSelect)} 为 true");
+        }
+
+        if (!this.Any())
+        {
+            return;
+        }
+
+        var anyChanged          = false;
+        var areMultipleSelected = AreMultipleSelected;
+        var isAnySelected       = IsAnySelected;
+        var firstSelectedItem   = FirstSelectedItem;
+
+        var selectionChangedEventArgs = SelectionChanged is null
+            ? null
+            : new SelectionChangedEventArgs
+              {
+                  Selected = new List<ISelectableItem>()
+              };
+
+
+        try
+        {
+            _isInBatchOperation = true;
+
+            foreach (var selectableItem in this.Where(v => !v.IsSelected))
+            {
+                selectableItem.IsSelected = true;
+
+                if (selectionChangedEventArgs is not null)
+                {
+                    selectionChangedEventArgs.Selected!.Add(selectableItem);
+                }
+
+                anyChanged = true;
+            }
+        }
+        finally
+        {
+            _isInBatchOperation = false;
+        }
+
+        if (anyChanged)
+        {
+            OnPropertyChanged(new PropertyChangedEventArgs(nameof(IsAllSelected)));
+            OnPropertyChanged(new PropertyChangedEventArgs(nameof(CountOfSelected)));
+
+            if (areMultipleSelected != AreMultipleSelected)
+            {
+                OnPropertyChanged(new PropertyChangedEventArgs(nameof(AreMultipleSelected)));
+            }
+
+            if (isAnySelected != IsAnySelected)
+            {
+                OnPropertyChanged(new PropertyChangedEventArgs(nameof(IsAnySelected)));
+            }
+
+            if (!ReferenceEquals(firstSelectedItem, FirstSelectedItem))
+            {
+                OnPropertyChanged(new PropertyChangedEventArgs(nameof(FirstSelectedItem)));
+            }
+
+
+            SelectionChanged?.Invoke(this, selectionChangedEventArgs!);
+        }
+    }
+
+    /// <summary>
+    /// 全不选
+    /// </summary>
+    /// <exception cref="InvalidOperationException"></exception>
+    public void UnselectAll()
+    {
+        if (!this.Any())
+        {
+            return;
+        }
+
+        var anyChanged          = false;
+        var areMultipleSelected = AreMultipleSelected;
+
+        var selectionChangedEventArgs = SelectionChanged is null
+            ? null
+            : new SelectionChangedEventArgs
+              {
+                  Unselected = new List<ISelectableItem>()
+              };
+
+        try
+        {
+            _isInBatchOperation = true;
+
+            foreach (var selectableItem in this.Where(v => v.IsSelected))
+            {
+                selectableItem.IsSelected = false;
+
+                if (selectionChangedEventArgs is not null)
+                {
+                    selectionChangedEventArgs.Unselected!.Add(selectableItem);
+                }
+
+                anyChanged = true;
+            }
+        }
+        finally
+        {
+            _isInBatchOperation = false;
+        }
+
+        if (anyChanged)
+        {
+            OnPropertyChanged(new PropertyChangedEventArgs(nameof(IsAllSelected)));
+            OnPropertyChanged(new PropertyChangedEventArgs(nameof(CountOfSelected)));
+
+            if (areMultipleSelected != AreMultipleSelected)
+            {
+                OnPropertyChanged(new PropertyChangedEventArgs(nameof(AreMultipleSelected)));
+            }
+            
+            OnPropertyChanged(new PropertyChangedEventArgs(nameof(IsAnySelected)));
+            OnPropertyChanged(new PropertyChangedEventArgs(nameof(FirstSelectedItem)));
+  
+            SelectionChanged?.Invoke(this, selectionChangedEventArgs!);
+        }
+    }
+
+
+    protected override void OnItemPropertyChanged(object? sender, PropertyChangedEventArgs e)
+    {
+        //todo 如果有10W+项 要进行一次全选  这里会运行多少次?
+
+        if (!_isInBatchOperation && sender is ISelectableItem selectableItem)
         {
             if (e.PropertyName == nameof(selectableItem.IsSelected))
             {
+                Debug.Print("SelectableNotificationList.OnItemPropertyChanged");
+
                 if (selectableItem.IsSelected == false)
                 {
-                    //有任意一项未选,那么肯定不是全选了
-                    _isAllSelectedEnable = false;
-                    IsAllSelected = false;
-                    _isAllSelectedEnable = true;
+                    if (_isAllSelected)
+                    {
+                        //有任意一项未选,那么肯定不是全选了
+                        _isAllSelected = false;
+                        OnPropertyChanged(new PropertyChangedEventArgs(nameof(IsAllSelected)));
+                    }
                 }
                 else
                 {
                     //检查是否全选了  //todo 这里调用是否太过频繁
                     if (this.All(v => v.IsSelected))
                     {
-                        _isAllSelectedEnable = false;
-                        IsAllSelected = true;
-                        _isAllSelectedEnable = true;
+                        if (!_isAllSelected)
+                        {
+                            _isAllSelected = true;
+                            OnPropertyChanged(new PropertyChangedEventArgs(nameof(IsAllSelected)));
+                        }
                     }
 
 
@@ -89,9 +234,9 @@ public class SelectableNotificationList<T> : NotificationList<T>, ISelectableNot
     protected override void OnCollectionChanged(NotifyCollectionChangedEventArgs e)
     {
         //在单选模式下,如果添加了新项,并且原本已存在选中项,那么新增的项不能是选中的
-        if (!CanMultipleSelect &&
+        if (!CanMultipleSelect     &&
             e.NewItems is not null &&
-            e.NewItems.Count != 0 &&
+            e.NewItems.Count != 0  &&
             AreMultipleSelected)
         {
             var isFirstSelectedSkipped = false;
@@ -133,7 +278,9 @@ public class SelectableNotificationList<T> : NotificationList<T>, ISelectableNot
     /// <summary>
     /// 当前是否多选
     /// </summary>
-    public bool AreMultipleSelected => CountOfSelected > 1;
+    public bool AreMultipleSelected => this.Where(v => v.IsSelected)
+                                           .Take(2)
+                                           .Count() > 1;
 
     /// <summary>
     /// 当前是否单选
@@ -143,10 +290,8 @@ public class SelectableNotificationList<T> : NotificationList<T>, ISelectableNot
     /// <summary>
     /// 当前是否选中了至少1项
     /// </summary>
-    public bool IsAnySelected => CountOfSelected >= 1;
+    public bool IsAnySelected => this.Any(v => v.IsSelected);
 
-
-    private bool _isAllSelectedEnable = true;
 
     private bool _isAllSelected;
 
@@ -157,15 +302,14 @@ public class SelectableNotificationList<T> : NotificationList<T>, ISelectableNot
         {
             _isAllSelected = value;
 
-            if (_isAllSelectedEnable)
+            if (value)
             {
-                foreach (var item in this)
-                {
-                    item.IsSelected = value;
-                }
+                SelectAll();
             }
-
-            OnPropertyChanged(new PropertyChangedEventArgs(nameof(IsAllSelected)));
+            else
+            {
+                UnselectAll();
+            }
         }
     }
 

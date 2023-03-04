@@ -53,11 +53,13 @@ namespace WpfFrame.Collection.Tests
         {
             var snl = new SelectableNotificationList<SelectableItem>();
 
-            for (int i = 0; i < 50000; i++)
+            for (int i = 0; i < 1000; i++)
             {
                 var item = new SelectableItem();
                 snl.Add(item);
             }
+
+            snl.SelectAll();
         }
     }
 }
