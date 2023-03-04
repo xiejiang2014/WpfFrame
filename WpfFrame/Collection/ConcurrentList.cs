@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Runtime;
 
-namespace WpfFrame
+namespace WpfFrame.Collection
 {
     /// <summary>
     /// 线程安全的List

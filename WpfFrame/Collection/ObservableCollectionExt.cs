@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Collections.ObjectModel;
 
-namespace WpfFrame
+namespace WpfFrame.Collection
 {
     public static class ObservableCollectionExt
     {

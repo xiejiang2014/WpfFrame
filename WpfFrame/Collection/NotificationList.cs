@@ -2,7 +2,7 @@
 using System.Collections.ObjectModel;
 using System.ComponentModel;
 
-namespace WpfFrame
+namespace WpfFrame.Collection
 {
     /// <summary>
     /// ObservableCollection 的增强版,可提供子对象的属性变化事件.其中只能包含实现了 INotifyPropertyChanged 接口的对象
