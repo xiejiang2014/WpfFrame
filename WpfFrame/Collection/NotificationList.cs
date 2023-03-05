@@ -1,6 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Collections.ObjectModel;
+using System.Collections.Specialized;
 using System.ComponentModel;
 using System.Diagnostics;
 using System.Linq;
@@ -31,12 +31,8 @@ public enum ItemPropertyChangedNotificationTypes
 /// <typeparam name="T"></typeparam>
 public class NotificationList<T> : ObservableCollection<T> where T : class, INotifyPropertyChanged
 {
-    public NotificationList(IEnumerable<T> collection)
+    public NotificationList(IEnumerable<T> collection) : base(collection)
     {
-        foreach (var item in collection)
-        {
-            Add(item);
-        }
     }
 
     public NotificationList()
@@ -51,99 +47,19 @@ public class NotificationList<T> : ObservableCollection<T> where T : class, INot
 
     #region 元素的添加删除插入等
 
-    public new void Add(T item)
+    /// <summary>
+    /// Called by base class Collection&lt;T&gt; when the list is being cleared;
+    /// raises a CollectionChanged event to any listeners.
+    /// </summary>
+    protected override void ClearItems()
     {
         var anyItem = this.Any();
-
-        item.PropertyChanged += Item_PropertyChanged;
-
-        base.Add(item);
-
-        if (anyItem != this.Any())
-        {
-            OnPropertyChanged(new PropertyChangedEventArgs(nameof(AnyItem)));
-            Debug.Print("AnyItem 事件被触发 1");
-        }
-    }
-
-
-    public override void AddRange(IList<T> items)
-    {
-        var anyItem = this.Any();
-
-        foreach (var item in items)
-        {
-            item.PropertyChanged += Item_PropertyChanged;
-        }
-
-        base.AddRange(items);
-
-        if (anyItem != this.Any())
-        {
-            OnPropertyChanged(new PropertyChangedEventArgs(nameof(AnyItem)));
-            Debug.Print("AnyItem 事件被触发 2");
-        }
-    }
-
-    public new void Insert(int index, T item)
-    {
-        var anyItem = this.Any();
-
-        item.PropertyChanged += Item_PropertyChanged;
-        base.Insert(index, item);
-
-        if (anyItem != this.Any())
-        {
-            OnPropertyChanged(new PropertyChangedEventArgs(nameof(AnyItem)));
-            Debug.Print("AnyItem 事件被触发 3");
-        }
-    }
-
-    public new bool Remove(T item)
-    {
-        var anyItem = this.Any();
-
-        item.PropertyChanged -= Item_PropertyChanged;
-
-        var r = base.Remove(item);
-
-        if (anyItem != this.Any())
-        {
-            OnPropertyChanged(new PropertyChangedEventArgs(nameof(AnyItem)));
-            Debug.Print("AnyItem 事件被触发 4");
-        }
-
-        return r;
-    }
-
-    public new void RemoveAt(int index)
-    {
-        var anyItem = this.Any();
-
-        this[index].PropertyChanged -= Item_PropertyChanged;
-
-        base.RemoveAt(index);
-
-        if (anyItem != this.Any())
-        {
-            OnPropertyChanged(new PropertyChangedEventArgs(nameof(AnyItem)));
-            Debug.Print("AnyItem 事件被触发 5");
-        }
-    }
-
-
-    public bool AnyItem => this.Any();
-
-    public new void Clear()
-    {
-        var anyItem = this.Any();
-
         foreach (var v in this)
         {
             v.PropertyChanged -= Item_PropertyChanged;
         }
 
-        base.Clear();
+        base.ClearItems();
 
         if (anyItem != this.Any())
         {
@@ -152,7 +68,50 @@ public class NotificationList<T> : ObservableCollection<T> where T : class, INot
         }
     }
 
+    /// <summary>
+    /// Called by base class Collection&lt;T&gt; when an item is removed from list;
+    /// raises a CollectionChanged event to any listeners.
+    /// </summary>
+    protected override void RemoveItem(int index)
+    {
+        var item = this[index];
+        item.PropertyChanged -= Item_PropertyChanged;
+        base.RemoveItem(index);
+
+        if (!this.Any())
+        {
+            OnPropertyChanged(new PropertyChangedEventArgs(nameof(AnyItem)));
+            Debug.Print("AnyItem 事件被触发 4");
+        }
+    }
+
+    /// <summary>
+    /// Called by base class Collection&lt;T&gt; when an item is added to list;
+    /// raises a CollectionChanged event to any listeners.
+    /// </summary>
+    protected override void InsertItem(int index, T item)
+    {
+        var anyItem = this.Any();
+        base.InsertItem(index, item);
+        item.PropertyChanged += Item_PropertyChanged;
+        if (anyItem != this.Any())
+        {
+            OnPropertyChanged(new PropertyChangedEventArgs(nameof(AnyItem)));
+            Debug.Print("AnyItem 事件被触发 1");
+        }
+    }
+
+    protected override void SetItem(int index, T item)
+    {
+        T originalItem = this[index];
+        originalItem.PropertyChanged -= Item_PropertyChanged;
+        base.SetItem(index, item);
+        item.PropertyChanged += Item_PropertyChanged;
+    }
+
     #endregion
+
+    public bool AnyItem => this.Any();
 
     /// <summary>
     /// 是否对子对象的属性变更进行通知,默认 true ,某些时候可以临时设为 false 以避免不必要的通知提高性能.

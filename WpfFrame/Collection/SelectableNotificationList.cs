@@ -165,37 +165,7 @@ public class SelectableNotificationList<T> : NotificationList<T>, ISelectableNot
             SelectionChanged?.Invoke(this, selectionChangedEventArgs!);
         }
     }
-
-    //private bool _isAddingRange;
-
-    //public override void AddRange(IEnumerable<T> items)
-    //{
-    //    try
-    //    {
-    //        _isAddingRange = true;
-
-    //        base.AddRange(items);
-    //    }
-    //    finally
-    //    {
-    //        _isAddingRange = false;
-    //    }
-
-    //    //var anyItem = this.Any();
-
-    //    //foreach (var item in items)
-    //    //{
-    //    //    item.PropertyChanged += Item_PropertyChanged;
-    //    //    base.Add(item);
-    //    //}
-
-    //    //if (anyItem != this.Any())
-    //    //{
-    //    //    OnPropertyChanged(new PropertyChangedEventArgs(nameof(AnyItem)));
-    //    //    Debug.Print("AnyItem 事件被触发 2");
-    //    //}
-    //}
-
+    
     protected override void OnItemPropertyChanged(object? sender, PropertyChangedEventArgs e)
     {
         //todo 如果有10W+项 要进行一次全选  这里会运行多少次?
@@ -275,16 +245,9 @@ public class SelectableNotificationList<T> : NotificationList<T>, ISelectableNot
             }
         }
     }
-
-
+    
     protected override void OnCollectionChangedV2(NotifyCollectionChangedEventArgs e)
     {
-        //if (_isAddingRange)
-        //{
-        //    base.OnCollectionChanged(e);
-        //    return;
-        //}
-
         //在单选模式下,如果添加了新项,并且原本已存在选中项,那么新增的项不能是选中的
         if (!CanMultipleSelect     &&
             e.NewItems is not null &&
@@ -307,9 +270,7 @@ public class SelectableNotificationList<T> : NotificationList<T>, ISelectableNot
                 }
             }
         }
-
-        base.OnCollectionChanged(e);
-
+        
         OnPropertyChanged(new PropertyChangedEventArgs(nameof(CountOfSelected)));
         Debug.Print("CountOfSelected 事件被触发 24");
         OnPropertyChanged(new PropertyChangedEventArgs(nameof(AreMultipleSelected)));

@@ -183,8 +183,6 @@ namespace WpfFrame.Collection
             OnCollectionChangedV2(eventArgs);
         }
 
-        #endregion
-
         /// <summary>
         /// Called by base class Collection&lt;T&gt; when an item is set in list;
         /// raises a CollectionChanged event to any listeners.
@@ -200,6 +198,10 @@ namespace WpfFrame.Collection
             OnCollectionChanged(eventArgs); 
             OnCollectionChangedV2(eventArgs);
         }
+
+        #endregion
+
+
 
         /// <summary>
         /// Called by base class ObservableCollection&lt;T&gt; when an item is to be moved within the list;
