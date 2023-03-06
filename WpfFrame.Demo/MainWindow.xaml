@@ -22,6 +22,9 @@
         <TabItem Header="可订阅集合">
             <demo:ObservableCollectionDemo />
         </TabItem>
+        <TabItem Header="可选择集合">
+            <demo:SelectableNotificationListDemo />
+        </TabItem>
     </TabControl>
 
 </Window>

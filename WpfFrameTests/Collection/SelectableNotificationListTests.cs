@@ -1,10 +1,5 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
-using WpfFrame.Collection;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using System.Diagnostics;
 using WpfFrame.Demo;
 
 namespace WpfFrame.Collection.Tests
@@ -15,16 +10,36 @@ namespace WpfFrame.Collection.Tests
         [TestMethod()]
         public void SelectableNotificationListTest()
         {
+            Debug.Print("=====添加1000");
             var snl = new SelectableNotificationList<SelectableItem>();
 
             var items = Enumerable
-                       .Range(0, 999)
+                       .Range(1, 10)
                        .Select(v => SelectableItem.GetNew())
                        .ToArray();
 
             snl.AddRange(items);
 
+            Debug.Print("=====全选");
+
             snl.SelectAll();
+
+            Debug.Print("=====全不选");
+
+            snl.UnselectAll();
+
+            Debug.Print("=====全选");
+
+            snl.SelectAll();
+
+            Debug.Print("=====进入单选模式");
+
+            snl.CanMultipleSelect = false;
+
+            Debug.Print("=====取消首个选定");
+
+            snl[0].IsSelected = false;
+            //snl[0].IsSelected = true;
         }
     }
 }

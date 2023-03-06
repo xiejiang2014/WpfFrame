@@ -22,6 +22,9 @@ public class SelectableNotificationList<T> : NotificationList<T>, ISelectableNot
 
     private bool _isInBatchOperation;
 
+
+
+
     /// <summary>
     /// 全选
     /// </summary>
@@ -174,8 +177,6 @@ public class SelectableNotificationList<T> : NotificationList<T>, ISelectableNot
         {
             if (e.PropertyName == nameof(selectableItem.IsSelected))
             {
-                Debug.Print("SelectableNotificationList.OnItemPropertyChanged");
-
                 if (selectableItem.IsSelected == false)
                 {
                     if (_isAllSelected)

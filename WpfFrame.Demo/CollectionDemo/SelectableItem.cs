@@ -1,31 +1,18 @@
 ﻿using System.ComponentModel;
+using System.Diagnostics;
 using WpfFrame.Collection;
 
 namespace WpfFrame.Demo;
 
 public class SelectableItem : ISelectableItem
 {
-    private bool                              _isSelected;
-
-
     public event PropertyChangedEventHandler? PropertyChanged;
 
     private SelectableItem()
     {
     }
 
-    public bool IsSelected
-    {
-        get => _isSelected;
-        set
-        {
-            if (_isSelected != value)
-            {
-                _isSelected = value;
-                PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(IsSelected)));
-            }
-        }
-    }
+    public bool IsSelected { get; set; }
 
     public int Index { get; set; }
 

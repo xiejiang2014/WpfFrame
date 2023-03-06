@@ -47,6 +47,25 @@ public class NotificationList<T> : ObservableCollection<T> where T : class, INot
 
     #region 元素的添加删除插入等
 
+    public override void AddRange(IList<T> range)
+    {
+        var anyItem = this.Any();
+        base.AddRange(range);
+
+        foreach (var item in range)
+        {
+            item.PropertyChanged += Item_PropertyChanged;
+            Debug.Print($"{item} 加入列表 开始监听事件. 位置50");
+        }
+
+
+        if (anyItem != this.Any())
+        {
+            OnPropertyChanged(new PropertyChangedEventArgs(nameof(AnyItem)));
+            Debug.Print($"AnyItem 事件被触发 位置1 值:{AnyItem}");
+        }
+    }
+
     /// <summary>
     /// Called by base class Collection&lt;T&gt; when the list is being cleared;
     /// raises a CollectionChanged event to any listeners.
@@ -64,7 +83,7 @@ public class NotificationList<T> : ObservableCollection<T> where T : class, INot
         if (anyItem != this.Any())
         {
             OnPropertyChanged(new PropertyChangedEventArgs(nameof(AnyItem)));
-            Debug.Print("AnyItem 事件被触发 6");
+            Debug.Print($"AnyItem 事件被触发 位置2 值:{AnyItem}");
         }
     }
 
@@ -81,7 +100,7 @@ public class NotificationList<T> : ObservableCollection<T> where T : class, INot
         if (!this.Any())
         {
             OnPropertyChanged(new PropertyChangedEventArgs(nameof(AnyItem)));
-            Debug.Print("AnyItem 事件被触发 4");
+            Debug.Print($"AnyItem 事件被触发 位置3 值:{AnyItem}");
         }
     }
 
@@ -94,10 +113,11 @@ public class NotificationList<T> : ObservableCollection<T> where T : class, INot
         var anyItem = this.Any();
         base.InsertItem(index, item);
         item.PropertyChanged += Item_PropertyChanged;
+        Debug.Print($"{item} 加入列表 开始监听事件. 位置51");
         if (anyItem != this.Any())
         {
             OnPropertyChanged(new PropertyChangedEventArgs(nameof(AnyItem)));
-            Debug.Print("AnyItem 事件被触发 1");
+            Debug.Print($"AnyItem 事件被触发 位置4 值:{AnyItem}");
         }
     }
 
@@ -107,6 +127,7 @@ public class NotificationList<T> : ObservableCollection<T> where T : class, INot
         originalItem.PropertyChanged -= Item_PropertyChanged;
         base.SetItem(index, item);
         item.PropertyChanged += Item_PropertyChanged;
+        Debug.Print($"{item} 加入列表 开始监听事件. 位置52");
     }
 
     #endregion
@@ -130,7 +151,7 @@ public class NotificationList<T> : ObservableCollection<T> where T : class, INot
     public ItemPropertyChangedNotificationTypes ItemPropertyChangedNotificationType { get; set; } = new();
 
 
-    protected void Item_PropertyChanged(object? sender, PropertyChangedEventArgs e)
+    private void Item_PropertyChanged(object? sender, PropertyChangedEventArgs e)
     {
         //将 item 的属性更改通过事件通知到外部
         if (NotifyItemPropertyChanged       &&
