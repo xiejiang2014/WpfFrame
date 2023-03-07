@@ -16,7 +16,7 @@ namespace WpfFrame.Demo
         public SelectableNotificationListDemoViewModel()
         {
             var items = Enumerable
-                       .Range(1, 10)
+                       .Range(1, 1000)
                        .Select(v => SelectableItem.GetNew())
                        .ToArray();
 

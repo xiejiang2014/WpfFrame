@@ -78,26 +78,26 @@ public class SelectableNotificationList<T> : NotificationList<T>, ISelectableNot
         if (anyChanged)
         {
             OnPropertyChanged(new PropertyChangedEventArgs(nameof(IsAllSelected)));
-            Debug.Print("IsAllSelected 事件被触发 7");
+            Debug.Print($"IsAllSelected 事件被触发 事件被触发 位置4 值:{IsAllSelected}");
             OnPropertyChanged(new PropertyChangedEventArgs(nameof(CountOfSelected)));
-            Debug.Print("CountOfSelected 事件被触发 8");
+            Debug.Print($"CountOfSelected 事件被触发 位置8 值:{CountOfSelected}");
 
             if (areMultipleSelected != AreMultipleSelected)
             {
                 OnPropertyChanged(new PropertyChangedEventArgs(nameof(AreMultipleSelected)));
-                Debug.Print("AreMultipleSelected 事件被触发 9");
+                Debug.Print($"AreMultipleSelected 事件被触发 位置9 值:{AreMultipleSelected}");
             }
 
             if (isAnySelected != IsAnySelected)
             {
                 OnPropertyChanged(new PropertyChangedEventArgs(nameof(IsAnySelected)));
-                Debug.Print("IsAnySelected 事件被触发 10");
+                Debug.Print($"IsAnySelected 事件被触发 位置10 值:{IsAnySelected}");
             }
 
             if (!ReferenceEquals(firstSelectedItem, FirstSelectedItem))
             {
                 OnPropertyChanged(new PropertyChangedEventArgs(nameof(FirstSelectedItem)));
-                Debug.Print("FirstSelectedItem 事件被触发 11");
+                Debug.Print($"FirstSelectedItem 事件被触发 位置11 值:{FirstSelectedItem}");
             }
 
 
@@ -150,20 +150,20 @@ public class SelectableNotificationList<T> : NotificationList<T>, ISelectableNot
         if (anyChanged)
         {
             OnPropertyChanged(new PropertyChangedEventArgs(nameof(IsAllSelected)));
-            Debug.Print("IsAllSelected 事件被触发 12");
+            Debug.Print($"IsAllSelected 事件被触发 位置12 值:{IsAllSelected}");
             OnPropertyChanged(new PropertyChangedEventArgs(nameof(CountOfSelected)));
-            Debug.Print("CountOfSelected 事件被触发 13");
+            Debug.Print($"CountOfSelected 事件被触发 位置13 值:{CountOfSelected}");
 
             if (areMultipleSelected != AreMultipleSelected)
             {
                 OnPropertyChanged(new PropertyChangedEventArgs(nameof(AreMultipleSelected)));
-                Debug.Print("AreMultipleSelected 事件被触发 14");
+                Debug.Print($"AreMultipleSelected 事件被触发 位置14 值:{AreMultipleSelected}");
             }
 
             OnPropertyChanged(new PropertyChangedEventArgs(nameof(IsAnySelected)));
-            Debug.Print("IsAnySelected 事件被触发 15");
+            Debug.Print($"IsAnySelected 事件被触发 位置15 值:{IsAnySelected}");
             OnPropertyChanged(new PropertyChangedEventArgs(nameof(FirstSelectedItem)));
-            Debug.Print("FirstSelectedItem 事件被触发 16");
+            Debug.Print($"FirstSelectedItem 事件被触发 位置16 值:{FirstSelectedItem}");
 
             SelectionChanged?.Invoke(this, selectionChangedEventArgs!);
         }
@@ -184,7 +184,7 @@ public class SelectableNotificationList<T> : NotificationList<T>, ISelectableNot
                         //有任意一项未选,那么肯定不是全选了
                         _isAllSelected = false;
                         OnPropertyChanged(new PropertyChangedEventArgs(nameof(IsAllSelected)));
-                        Debug.Print("IsAllSelected 事件被触发 17");
+                        Debug.Print($"IsAllSelected 事件被触发 位置17 值:{IsAllSelected}");
                     }
                 }
                 else
@@ -196,7 +196,7 @@ public class SelectableNotificationList<T> : NotificationList<T>, ISelectableNot
                         {
                             _isAllSelected = true;
                             OnPropertyChanged(new PropertyChangedEventArgs(nameof(IsAllSelected)));
-                            Debug.Print("IsAllSelected 事件被触发 18");
+                            Debug.Print($"IsAllSelected 事件被触发 位置18 值:{IsAllSelected}");
                         }
                     }
 
@@ -218,15 +218,15 @@ public class SelectableNotificationList<T> : NotificationList<T>, ISelectableNot
                 }
 
                 OnPropertyChanged(new PropertyChangedEventArgs(nameof(CountOfSelected)));
-                Debug.Print("CountOfSelected 事件被触发 19");
+                Debug.Print($"CountOfSelected 事件被触发 位置8 值:{CountOfSelected}");
                 OnPropertyChanged(new PropertyChangedEventArgs(nameof(AreMultipleSelected)));
-                Debug.Print("AreMultipleSelected 事件被触发 20");
+                Debug.Print($"AreMultipleSelected 事件被触发 位置20 值:{AreMultipleSelected}");
                 OnPropertyChanged(new PropertyChangedEventArgs(nameof(IsSingleSelected)));
-                Debug.Print("IsSingleSelected 事件被触发 21");
+                Debug.Print($"IsSingleSelected 事件被触发 位置21 值:{IsSingleSelected}");
                 OnPropertyChanged(new PropertyChangedEventArgs(nameof(IsAnySelected)));
-                Debug.Print("IsAnySelected 事件被触发 22");
+                Debug.Print($"IsAnySelected 事件被触发 位置22 值:{IsAnySelected}");
                 OnPropertyChanged(new PropertyChangedEventArgs(nameof(FirstSelectedItem)));
-                Debug.Print("FirstSelectedItem 事件被触发 23");
+                Debug.Print($"FirstSelectedItem 事件被触发 位置23 值:{FirstSelectedItem}");
 
                 if (SelectionChanged is not null)
                 {
@@ -273,15 +273,15 @@ public class SelectableNotificationList<T> : NotificationList<T>, ISelectableNot
         }
         
         OnPropertyChanged(new PropertyChangedEventArgs(nameof(CountOfSelected)));
-        Debug.Print("CountOfSelected 事件被触发 24");
+        Debug.Print($"CountOfSelected 事件被触发 位置24 值:{CountOfSelected}");
         OnPropertyChanged(new PropertyChangedEventArgs(nameof(AreMultipleSelected)));
-        Debug.Print("AreMultipleSelected 事件被触发 25");
+        Debug.Print($"AreMultipleSelected 事件被触发 位置25 值:{AreMultipleSelected}");
         OnPropertyChanged(new PropertyChangedEventArgs(nameof(IsSingleSelected)));
-        Debug.Print("IsSingleSelected 事件被触发 26");
+        Debug.Print($"IsSingleSelected 事件被触发 位置26 值:{IsSingleSelected}");
         OnPropertyChanged(new PropertyChangedEventArgs(nameof(IsAnySelected)));
-        Debug.Print("IsAnySelected 事件被触发 27");
+        Debug.Print($"IsAnySelected 事件被触发 位置27 值:{IsAnySelected}");
         OnPropertyChanged(new PropertyChangedEventArgs(nameof(IsAllSelected)));
-        Debug.Print("IsAllSelected 事件被触发 28");
+        Debug.Print($"IsAllSelected 事件被触发 位置28 值:{IsAllSelected}");
     }
 
     /// <summary>
